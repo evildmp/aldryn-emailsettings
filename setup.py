@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from aldryn_cos import __version__
+from aldryn_emailsettings import __version__
 
 REQUIREMENTS = [
     'Django>=1.5.5',
