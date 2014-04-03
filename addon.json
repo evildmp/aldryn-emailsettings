@@ -1,0 +1,15 @@
+{
+	"name": "Email settings",
+	"package-name": "aldryn-emailsettings",
+	"description": "Email settings",
+	"version": "1.0a1",
+	"url": "https://github.com/aldryn/aldryn-emailsettings",
+	"author": {
+		"name": "Divio AG",
+		"url": "https://www.divio.ch"
+	},
+	"license": {
+		"name": "BSD"
+	},
+	"installed-apps": []
+}
