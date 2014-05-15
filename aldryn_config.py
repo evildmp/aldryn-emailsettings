@@ -18,6 +18,8 @@ class Form(BaseForm):
     email_host_password_stage = CharField('SMTP Password used on stage', initial='', required=False)
     email_use_tls_stage = CheckboxField('Use TLS used on stage', required=False, initial=False)
 
+    mandrill_api_key = CharField('Mandrill API key', initial='', required=False)
+
     def to_settings(self, data, settings):
         if settings.DEBUG:
             email_settings = {
@@ -35,6 +37,12 @@ class Form(BaseForm):
                 'EMAIL_PORT': data.get('email_port'),
                 'EMAIL_USE_TLS': data.get('email_use_tls'),
             }
+            mandrill_api_key = data.get('mandrill_api_key')
+            if mandrill_api_key:
+                email_settings.update({
+                    'EMAIL_BACKEND': 'django_mandrill.mail.backends.mandrillbackend.EmailBackend',
+                    'MANDRILL_API_KEY': mandrill_api_key
+                })
 
         if data.get('default_from_email', False):
             email_settings['DEFAULT_FROM_EMAIL'] = data.get('default_from_email')

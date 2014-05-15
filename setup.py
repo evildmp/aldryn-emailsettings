@@ -4,6 +4,7 @@ from aldryn_emailsettings import __version__
 
 REQUIREMENTS = [
     'Django>=1.5.5',
+    'django-mandrill==0.1.0'
 ]
 
 CLASSIFIERS = [
