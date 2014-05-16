@@ -21,7 +21,7 @@ class Form(BaseForm):
     mandrill_api_key = CharField('Mandrill API key', initial='', required=False)
 
     def to_settings(self, data, settings):
-        if settings.DEBUG:
+        if settings.get('DEBUG'):
             email_settings = {
                 'EMAIL_HOST': data.get('email_host_stage') or data.get('email_host'),
                 'EMAIL_HOST_PASSWORD': data.get('email_host_password_stage') or data.get('email_host_password'),
