@@ -19,7 +19,7 @@ class Form(BaseForm):
     email_use_tls_stage = CheckboxField('Use TLS used on stage', required=False, initial=False)
 
     mandrill_api_key = CharField('Mandrill API key', initial='', required=False)
-    mandrill_api_key_stage = CheckboxField('Mandrill API key for stage', required=False, initial=False)
+    mandrill_api_key_stage = CharField('Mandrill API key for stage', initial='', required=False)
 
     def to_settings(self, data, settings):
         is_stage = settings.get('DEBUG')
