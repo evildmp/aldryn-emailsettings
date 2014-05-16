@@ -19,7 +19,7 @@ class Form(BaseForm):
     email_use_tls_stage = CheckboxField('Use TLS used on stage', required=False, initial=False)
 
     mandrill_api_key = CharField('Mandrill API key', initial='', required=False)
-    use_mandrill_on_stage = CheckboxField('Use mandrill on stage', required=False, initial=False)
+    mandrill_api_key_stage = CheckboxField('Mandrill API key for stage', required=False, initial=False)
 
     def to_settings(self, data, settings):
         is_stage = settings.get('DEBUG')
@@ -31,6 +31,12 @@ class Form(BaseForm):
                 'EMAIL_PORT': data.get('email_port_stage') or data.get('email_port'),
                 'EMAIL_USE_TLS': data.get('email_use_tls_stage') or data.get('email_use_tls'),
             }
+            stage_mandrill_api_key = data.get('mandrill_api_key_stage')
+            if stage_mandrill_api_key:
+                email_settings.update({
+                    'EMAIL_BACKEND': 'django_mandrill.mail.backends.mandrillbackend.EmailBackend',
+                    'MANDRILL_API_KEY': stage_mandrill_api_key
+                })
         else:
             email_settings = {
                 'EMAIL_HOST': data.get('email_host'),
@@ -39,15 +45,12 @@ class Form(BaseForm):
                 'EMAIL_PORT': data.get('email_port'),
                 'EMAIL_USE_TLS': data.get('email_use_tls'),
             }
-
-        mandrill_api_key = data.get('mandrill_api_key')
-        can_use_mandrill_on_stage = mandrill_api_key and is_stage and data.get('use_mandrill_on_stage')
-        can_use_mandrill_on_live = mandrill_api_key and not is_stage
-        if can_use_mandrill_on_stage or can_use_mandrill_on_live:
-            email_settings.update({
-                'EMAIL_BACKEND': 'django_mandrill.mail.backends.mandrillbackend.EmailBackend',
-                'MANDRILL_API_KEY': mandrill_api_key
-            })
+            mandrill_api_key = data.get('mandrill_api_key')
+            if mandrill_api_key:
+                email_settings.update({
+                    'EMAIL_BACKEND': 'django_mandrill.mail.backends.mandrillbackend.EmailBackend',
+                    'MANDRILL_API_KEY': mandrill_api_key
+                })
 
         if data.get('default_from_email', False):
             email_settings['DEFAULT_FROM_EMAIL'] = data.get('default_from_email')
