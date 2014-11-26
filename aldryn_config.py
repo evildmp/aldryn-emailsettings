@@ -10,16 +10,43 @@ class Form(BaseForm):
     email_host_password = CharField('SMTP Password', initial='')
     email_use_tls = CheckboxField('Use TLS', required=False, initial=False)
 
-    default_from_email = CharField('Default from email', initial='', required=False)
+    default_from_email = CharField(
+        "Default 'From:' address", initial='', required=False,
+        help_text="Can be overridden",
+        )
 
-    email_host_stage = CharField('SMTP Host used on stage', initial='localhost', required=False)
-    email_port_stage = NumberField('SMTP Port used on stage', initial=25, required=False)
-    email_host_user_stage = CharField('SMTP User used on stage', initial='', required=False)
-    email_host_password_stage = CharField('SMTP Password used on stage', initial='', required=False)
-    email_use_tls_stage = CheckboxField('Use TLS used on stage', required=False, initial=False)
+    email_host_stage = CharField(
+        'SMTP Host (Test server)',
+        initial='localhost', required=False,
+        help_text="On the Test server, overrides 'SMTP Host' above",
+        )
+    email_port_stage = NumberField(
+        'SMTP Port (Test server)',
+        initial=25, required=False,
+        help_text="On the Test server, overrides 'SMTP Port' above",
+        )
+    email_host_user_stage = CharField(
+        'SMTP User (Test server)',
+        initial='', required=False,
+        help_text="On the Test server, overrides 'SMTP User' above",
+        )
+    email_host_password_stage = CharField(
+        'SMTP Password (Test server)',
+        initial='', required=False,
+        help_text="On the Test server, overrides 'SMTP Password' above",
+        )
+    email_use_tls_stage = CheckboxField(
+        'Use TLS (Test server)',
+        required=False, initial=False,
+        help_text="On the Test server, overrides 'Use TLS' above",
+        )
 
     mandrill_api_key = CharField('Mandrill API key', initial='', required=False)
-    mandrill_api_key_stage = CharField('Mandrill API key for stage', initial='', required=False)
+    mandrill_api_key_stage = CharField(
+        'Mandrill API key (Test server)',
+        initial='', required=False,
+        help_text="On the Test server, overrides 'Mandrill API' above",
+        )
 
     def to_settings(self, data, settings):
         is_stage = settings.get('DEBUG')
